@@ -61,6 +61,7 @@ func Create(db *database.GormDatabase, vInfo *model.VersionInfo, conf *config.Co
 	g.GET("/swagger", docs.Serve)
 	g.Static("/image", conf.UploadedImagesDir)
 	g.GET("/docs", docs.UI)
+	g.POST("/registration", userHandler.Register)
 
 	g.Use(func(ctx *gin.Context) {
 		ctx.Header("Content-Type", "application/json")

@@ -182,6 +182,62 @@ func (a *UserAPI) CreateUser(ctx *gin.Context) {
 	}
 }
 
+// Register creates a user who can't be admin
+// swagger:operation POST /registration user register
+//
+// Create a user.
+//
+// ---
+// consumes: [application/json]
+// produces: [application/json]
+// security: [clientTokenHeader: [], clientTokenQuery: [], basicAuth: []]
+// parameters:
+// - name: body
+//   in: body
+//   description: the user to add
+//   required: true
+//   schema:
+//     $ref: "#/definitions/UserWithPass"
+// responses:
+//   200:
+//     description: Ok
+//     schema:
+//         $ref: "#/definitions/User"
+//   400:
+//     description: Bad Request
+//     schema:
+//         $ref: "#/definitions/Error"
+//   401:
+//     description: Unauthorized
+//     schema:
+//         $ref: "#/definitions/Error"
+//   403:
+//     description: Forbidden
+//     schema:
+//         $ref: "#/definitions/Error"
+func (a *UserAPI) Register(ctx *gin.Context) {
+	user := model.UserExternalWithPass{}
+	if err := ctx.Bind(&user); err == nil {
+		internal := a.toInternalUser(&user, []byte{})
+		existingUser, err := a.DB.GetUserByName(internal.Name)
+		if success := successOrAbort(ctx, 500, err); !success {
+			return
+		}
+		if existingUser == nil && internal.Admin == false {
+			if success := successOrAbort(ctx, 500, a.DB.CreateUser(internal)); !success {
+				return
+			}
+			if err := a.UserChangeNotifier.fireUserAdded(internal.ID); err != nil {
+				ctx.AbortWithError(500, err)
+				return
+			}
+			ctx.JSON(200, toExternalUser(internal))
+		} else {
+			ctx.AbortWithError(400, errors.New("Cannot register"))
+		}
+	}
+}
+
 // GetUserByID returns the user by id
 // swagger:operation GET /user/{id} user getUser
 //

@@ -223,7 +223,7 @@ func (a *UserAPI) Register(ctx *gin.Context) {
 		if success := successOrAbort(ctx, 500, err); !success {
 			return
 		}
-		if existingUser == nil && internal.Admin == false {
+		if existingUser == nil && !internal.Admin {
 			if success := successOrAbort(ctx, 500, a.DB.CreateUser(internal)); !success {
 				return
 			}
@@ -233,7 +233,7 @@ func (a *UserAPI) Register(ctx *gin.Context) {
 			}
 			ctx.JSON(200, toExternalUser(internal))
 		} else {
-			ctx.AbortWithError(400, errors.New("Cannot register"))
+			ctx.AbortWithError(400, errors.New("cannot register"))
 		}
 	}
 }

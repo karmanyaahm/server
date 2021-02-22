@@ -51,7 +51,7 @@ type Configuration struct {
 	PassStrength      int    `default:"10"`
 	UploadedImagesDir string `default:"data/images"`
 	PluginsDir        string `default:"data/plugins"`
-	Registration         bool  `default:"false"`
+	Registration      bool   `default:"false"`
 }
 
 func configFiles() []string {

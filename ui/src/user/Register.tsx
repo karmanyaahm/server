@@ -39,9 +39,7 @@ export default class RegistrationDialog extends Component<IProps, IState> {
                 onClose={fClose}
                 aria-labelledby="form-dialog-title"
                 id="add-edit-user-dialog">
-                <DialogTitle id="form-dialog-title">
-                    Registration
-                </DialogTitle>
+                <DialogTitle id="form-dialog-title">Registration</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus

@@ -69,6 +69,9 @@ class Layout extends React.Component<
     @observable
     private navOpen = false;
 
+    @observable
+    private registration = false;
+
     private setNavOpen(open: boolean) {
         this.navOpen = open;
     }
@@ -77,6 +80,7 @@ class Layout extends React.Component<
         if (this.version === Layout.defaultVersion) {
             axios.get(config.get('url') + 'version').then((resp: AxiosResponse<IVersion>) => {
                 this.version = resp.data.version;
+                this.registration = resp.data.registration;
             });
         }
 
@@ -89,7 +93,7 @@ class Layout extends React.Component<
     }
 
     public render() {
-        const {version, showSettings, currentTheme} = this;
+        const {version, showSettings, currentTheme, registration} = this;
         const {
             classes,
             currentUser: {
@@ -102,7 +106,8 @@ class Layout extends React.Component<
             },
         } = this.props;
         const theme = themeMap[currentTheme];
-        const loginRoute = () => (loggedIn ? <Redirect to="/" /> : <Login />);
+        const loginRoute = () =>
+            loggedIn ? <Redirect to="/" /> : <Login registration={registration} />;
         return (
             <MuiThemeProvider theme={theme}>
                 <HashRouter>

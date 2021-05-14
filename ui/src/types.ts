@@ -62,4 +62,5 @@ export interface IVersion {
     version: string;
     commit: string;
     buildDate: string;
+    registration: boolean;
 }

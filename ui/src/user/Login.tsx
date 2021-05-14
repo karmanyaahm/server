@@ -4,14 +4,20 @@ import TextField from '@material-ui/core/TextField';
 import React, {Component, FormEvent} from 'react';
 import Container from '../common/Container';
 import DefaultPage from '../common/DefaultPage';
+import {CurrentUser} from '../CurrentUser';
 import {observable} from 'mobx';
 import {observer} from 'mobx-react';
-import {inject, Stores} from '../inject';
+import {inject} from '../inject';
 import RegistrationDialog from './Register';
 import axios from 'axios';
 
+type Props = {
+    registration: boolean;
+    currentUser: CurrentUser;
+};
+
 @observer
-class Login extends Component<Stores<'currentUser'>> {
+class Login extends Component<Props> {
     @observable
     private username = '';
     @observable
@@ -22,18 +28,7 @@ class Login extends Component<Stores<'currentUser'>> {
     public render() {
         const {username, password, registerDialog} = this;
         return (
-            <DefaultPage
-                title="Login"
-                rightControl={
-                    <Button
-                        id="register"
-                        variant="contained"
-                        color="primary"
-                        onClick={() => (this.registerDialog = true)}>
-                        Register
-                    </Button>
-                }
-                maxWidth={250}>
+            <DefaultPage title="Login" rightControl={this.registerButton()} maxWidth={250}>
                 <Grid item xs={12} style={{textAlign: 'center'}}>
                     <Container>
                         <form onSubmit={this.preventDefault} id="login-form">
@@ -83,7 +78,21 @@ class Login extends Component<Stores<'currentUser'>> {
     };
 
     private register = async (name: string, pass: string) => {
-        await axios.post("/registration", {name, pass});
+        await axios.post('/registration', {name, pass});
+    };
+
+    private registerButton = () => {
+        if (this.props.registration)
+            return (
+                <Button
+                    id="register"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => (this.registerDialog = true)}>
+                    Register
+                </Button>
+            );
+        else return null;
     };
 
     private preventDefault = (e: FormEvent<HTMLFormElement>) => e.preventDefault();

@@ -26,12 +26,12 @@ var (
 )
 
 func main() {
+	vInfo := &model.VersionInfo{Version: Version, Commit: Commit, BuildDate: BuildDate}
 	mode.Set(Mode)
 
+	fmt.Println("Starting Gotify version", vInfo.Version+"@"+BuildDate)
 	rand.Seed(time.Now().UnixNano())
 	conf := config.Get()
-	vInfo := &model.VersionInfo{Version: Version, Commit: Commit, BuildDate: BuildDate, Registration: conf.Registration}
-	fmt.Println("Starting Gotify version", vInfo.Version+"@"+BuildDate)
 
 	if conf.PluginsDir != "" {
 		if err := os.MkdirAll(conf.PluginsDir, 0755); err != nil {

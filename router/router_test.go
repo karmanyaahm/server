@@ -39,7 +39,7 @@ func (s *IntegrationSuite) BeforeTest(string, string) {
 	s.db = testdb.NewDBWithDefaultUser(s.T())
 	assert.Nil(s.T(), err)
 	g, closable := Create(s.db.GormDatabase,
-		&model.VersionInfo{Version: "1.0.0", BuildDate: "2018-02-20-17:30:47", Commit: "asdasds", Registration: false},
+		&model.VersionInfo{Version: "1.0.0", BuildDate: "2018-02-20-17:30:47", Commit: "asdasds"},
 		&config.Configuration{PassStrength: 5},
 	)
 	s.closable = closable
@@ -55,7 +55,7 @@ func (s *IntegrationSuite) AfterTest(string, string) {
 func (s *IntegrationSuite) TestVersionInfo() {
 	req := s.newRequest("GET", "version", "")
 
-	doRequestAndExpect(s.T(), req, 200, `{"version":"1.0.0", "commit":"asdasds", "buildDate":"2018-02-20-17:30:47", "registration":false}`)
+	doRequestAndExpect(s.T(), req, 200, `{"version":"1.0.0", "commit":"asdasds", "buildDate":"2018-02-20-17:30:47"`)
 }
 
 func (s *IntegrationSuite) TestHeaderInDev() {

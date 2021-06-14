@@ -68,14 +68,13 @@ class Layout extends React.Component<
     @observable
     private navOpen = false;
     @observable
-    private registration = false;
+    private showRegister = true; //TODO https://github.com/gotify/server/pull/394#discussion_r650559205
 
     private setNavOpen(open: boolean) {
         this.navOpen = open;
     }
 
     public componentDidMount() {
-        this.registration = true; //TODO https://github.com/gotify/server/pull/394#discussion_r650559205
         if (this.version === Layout.defaultVersion) {
             axios.get(config.get('url') + 'version').then((resp: AxiosResponse<IVersion>) => {
                 this.version = resp.data.version;
@@ -91,7 +90,7 @@ class Layout extends React.Component<
     }
 
     public render() {
-        const {version, showSettings, currentTheme, registration} = this;
+        const {version, showSettings, currentTheme, showRegister} = this;
         const {
             classes,
             currentUser: {
@@ -105,7 +104,7 @@ class Layout extends React.Component<
         } = this.props;
         const theme = themeMap[currentTheme];
         const loginRoute = () =>
-            loggedIn ? <Redirect to="/" /> : <Login registration={registration} />;
+            loggedIn ? <Redirect to="/" /> : <Login showRegister={showRegister} />;
         return (
             <MuiThemeProvider theme={theme}>
                 <HashRouter>

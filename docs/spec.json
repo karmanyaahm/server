@@ -2441,12 +2441,6 @@
           "x-go-name": "Commit",
           "example": "ae9512b6b6feea56a110d59a3353ea3b9c293864"
         },
-        "registration": {
-          "description": "Registration is allowed",
-          "type": "boolean",
-          "x-go-name": "Registration",
-          "example": true
-        },
         "version": {
           "description": "The current version.",
           "type": "string",

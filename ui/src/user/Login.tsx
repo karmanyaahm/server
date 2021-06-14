@@ -4,11 +4,11 @@ import TextField from '@material-ui/core/TextField';
 import React, {Component, FormEvent} from 'react';
 import Container from '../common/Container';
 import DefaultPage from '../common/DefaultPage';
-import {CurrentUser} from '../CurrentUser';
 import {observable} from 'mobx';
 import {observer} from 'mobx-react';
-import {inject} from '../inject';
+import {inject, Stores} from '../inject';
 import RegistrationDialog from './Register';
+import * as config from '../config';
 import axios from 'axios';
 
 type Props = Stores<'currentUser'> & {
@@ -81,7 +81,7 @@ class Login extends Component<Props> {
     };
 
     private registerButton = () => {
-        if (this.props.registration)
+        if (this.props.showRegister)
             return (
                 <Button
                     id="register"

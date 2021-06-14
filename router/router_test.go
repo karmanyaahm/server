@@ -55,7 +55,7 @@ func (s *IntegrationSuite) AfterTest(string, string) {
 func (s *IntegrationSuite) TestVersionInfo() {
 	req := s.newRequest("GET", "version", "")
 
-	doRequestAndExpect(s.T(), req, 200, `{"version":"1.0.0", "commit":"asdasds", "buildDate":"2018-02-20-17:30:47"`)
+	doRequestAndExpect(s.T(), req, 200, `{"version":"1.0.0", "commit":"asdasds", "buildDate":"2018-02-20-17:30:47"}`)
 }
 
 func (s *IntegrationSuite) TestHeaderInDev() {

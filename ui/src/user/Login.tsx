@@ -11,9 +11,8 @@ import {inject} from '../inject';
 import RegistrationDialog from './Register';
 import axios from 'axios';
 
-type Props = {
-    registration: boolean;
-    currentUser: CurrentUser;
+type Props = Stores<'currentUser'> & {
+    showRegister: boolean;
 };
 
 @observer

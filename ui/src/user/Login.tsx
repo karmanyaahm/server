@@ -77,7 +77,7 @@ class Login extends Component<Props> {
     };
 
     private register = async (name: string, pass: string) => {
-        await axios.post('/registration', {name, pass});
+        await axios.post(config.get('url') + 'registration', {name, pass});
     };
 
     private registerButton = () => {

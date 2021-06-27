@@ -176,13 +176,13 @@ func (s *AuthenticationSuite) TestOptionalAuth() {
 	ctx = s.assertQueryRequest("token", "apptoken_admin", s.auth.Optional, 200)
 	assert.Nil(s.T(), TryGetUserID(ctx))
 
-	//user existing:pw
+	// user existing:pw
 	ctx = s.assertHeaderRequest("Authorization", "Basic ZXhpc3Rpbmc6cHc=", s.auth.Optional, 200)
 	assert.Equal(s.T(), uint(1), *TryGetUserID(ctx))
 	ctx = s.assertQueryRequest("token", "clienttoken", s.auth.Optional, 200)
 	assert.Equal(s.T(), uint(1), *TryGetUserID(ctx))
 
-	//user admin:pw
+	// user admin:pw
 	ctx = s.assertHeaderRequest("Authorization", "Basic YWRtaW46cHc=", s.auth.Optional, 200)
 	assert.Equal(s.T(), uint(2), *TryGetUserID(ctx))
 	ctx = s.assertQueryRequest("token", "clienttoken_admin", s.auth.Optional, 200)

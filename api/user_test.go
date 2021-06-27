@@ -50,11 +50,11 @@ func (s *UserSuite) BeforeTest(suiteName, testName string) {
 	})
 	s.a = &UserAPI{DB: s.db, UserChangeNotifier: s.notifier}
 
-	if strings.Contains(testName, "CreateUser") { //create the users that will register for the createuser test
+	if strings.Contains(testName, "CreateUser") { // create the users that will register for the createuser test
 		s.db.CreateUser(&model.User{ID: 1, Name: "admin", Admin: true})
 		s.db.CreateUser(&model.User{ID: 2, Name: "user", Admin: false})
 
-		auth.RegisterAuthentication(s.ctx, nil, 1, "") //will be admin by default unless testing otherwise
+		auth.RegisterAuthentication(s.ctx, nil, 1, "") // will be admin by default unless testing otherwise
 	}
 }
 

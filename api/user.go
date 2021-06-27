@@ -179,15 +179,14 @@ func (a *UserAPI) CreateUser(ctx *gin.Context) {
 			if err == nil && requestByUser != nil {
 				requestByAdmin = requestByUser.Admin // logged in as valid user
 			}
-
 		}
 
 		if !requestByAdmin { // if the request is not from an admin
-			if !a.EnableRegistration { //if not admin and no anonymous registration
+			if !a.EnableRegistration { // if not admin and no anonymous registration
 				ctx.AbortWithError(http.StatusForbidden, errors.New("you are not allowed to access this api"))
 				return
 			}
-			if internal.Admin { //not admin and wants to create a new user with admin
+			if internal.Admin { // not admin and wants to create a new user with admin
 				ctx.AbortWithError(http.StatusUnauthorized, errors.New("you are not permitted to register an admin user"))
 				return
 			}

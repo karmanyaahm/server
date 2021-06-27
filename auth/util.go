@@ -36,6 +36,20 @@ func TryGetUserID(ctx *gin.Context) *uint {
 }
  
 
+// TryGetUserID returns the user id or nil if one is not set.
+func TryGetUserID(ctx *gin.Context) *uint {
+	user := ctx.MustGet("user").(*model.User)
+	if user == nil {
+		userID := ctx.MustGet("userid").(uint)
+		if userID == 0 {
+			return nil
+		}
+		return &userID
+	}
+
+	return &user.ID
+}
+
 // GetTokenID returns the tokenID.
 func GetTokenID(ctx *gin.Context) string {
 	return ctx.MustGet("tokenid").(string)
